@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "MSReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">M&S Reports</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Reports Collection
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>Selects</label>
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                    <div class="col-lg-6">
+                    </div>
+                    <!-- /.col-lg-6 (nested) -->
+                </div>
+                <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+
+    <!-- /.col-lg-12 -->
+    <div class="col-lg-12">
+        <iframe class="col-lg-12" id="imsReport"></iframe>
+    </div>
+<script>
+$( "select" )
+  .change(function() {
+    var str = "";
+    $( "select option:selected" ).each(function() {
+      str += $( this ).text() + " ";
+    });
+
+    //$("#imsReport").attr("src", "http://pksp1.parks.co.la.ca.us/my/personal/fkim/Blog/MoveForward/_layouts/15/ReportServer/RSViewerPage.aspx?rv:RelativeReportUrl=/my/personal/fkim/Blog/MoveForward/Shared%20Documents/MS%20Reports/HB3R01CR2.rdl&Source=http%3A%2F%2Fpksp1%2Fmy%2Fpersonal%2Ffkim%2FBlog%2FMoveForward%2FSitePages%2FHome%2Easpx%3FRootFolder%3D%252Fmy%252Fpersonal%252Ffkim%252FBlog%252FMoveForward%252FShared%2520Documents%252FMS%2520Reports%26FolderCTID%3D0x012000B8C8DC2671179F4A9196732B2078EDB5%26View%3D%257BC2224CBA%252DB617%252D48B1%252D828C%252D08C90F19F094%257D");
+  })
+  .trigger("change");
+</script>
