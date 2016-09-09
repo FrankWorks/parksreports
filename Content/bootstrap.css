@@ -4198,6 +4198,15 @@ textarea.input-group-sm > .input-group-btn > .btn {
   line-height: 20px;
 }
 
+.navbar-brand-pk {
+  float: left;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  position:absolute;
+  left:75%;
+}
+
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
@@ -4384,7 +4393,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default {
-  background-color: #f8f8f8;
+  /*background-color: #f8f8f8;*/
+  background-color: #8b0000;
   border-color: #e7e7e7;
 }
 
@@ -6814,3 +6824,4 @@ td.visible-print {
     display: none !important;
   }
 }
+

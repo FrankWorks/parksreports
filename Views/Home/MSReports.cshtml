@@ -6,15 +6,18 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">M&S Reports</h1>
+        <h1 class="page-header">M&S</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
 <div class="row">
     <div class="col-lg-12">
+        <div>
+
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                Reports Collection
+                
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -23,11 +26,10 @@
                             <div class="form-group">
                                 <label>Selects</label>
                                 <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                    <option>Select Report from List</option>
+                                    <option value="1">List of Payments</option>
+                                    <option value="2">M+S Agency Info - Actual + YEG</option>
+                                    
                                 </select>
                             </div>
 
@@ -49,17 +51,85 @@
 
     <!-- /.col-lg-12 -->
     <div class="col-lg-12">
-        <iframe class="col-lg-12" id="imsReport"></iframe>
+        @*<iframe class="col-lg-12" id="imsReport"></iframe>*@
+    </div>
     </div>
 <script>
+    //$(document).load(function(){
+    ////    $( "select" ).change(function(){
+    ////        event.stoppropagation();
+    ////    });
+    //$("select").change(function () {
+    //    event.preventDefault();
+    //});
+    var initialLoad = true;
+
+    $(document).ready(function () {
+        initialLoad = false;
+    });
+   
 $( "select" )
   .change(function() {
-    var str = "";
-    $( "select option:selected" ).each(function() {
-      str += $( this ).text() + " ";
-    });
+      var str = "";
+      $( "select option:selected" ).each(function() {
+          str += $( this ).text() + " ";
+      });
+   
+      //$("#imsReport").attr("src", "http://pksp1.parks.co.la.ca.us/my/personal/fkim/Blog/MoveForward/_layouts/15/ReportServer/RSViewerPage.aspx?rv:RelativeReportUrl=/my/personal/fkim/Blog/MoveForward/Shared%20Documents/MS%20Reports/HB3R01CR2.rdl&Source=http%3A%2F%2Fpksp1%2Fmy%2Fpersonal%2Ffkim%2FBlog%2FMoveForward%2FSitePages%2FHome%2Easpx%3FRootFolder%3D%252Fmy%252Fpersonal%252Ffkim%252FBlog%252FMoveForward%252FShared%2520Documents%252FMS%2520Reports%26FolderCTID%3D0x012000B8C8DC2671179F4A9196732B2078EDB5%26View%3D%257BC2224CBA%252DB617%252D48B1%252D828C%252D08C90F19F094%257D");
+      if (str.search("Select") == 0 && !initialLoad) {
+          
+      
+          $('<div></div>').dialog({
+              modal: true,
+              title: "Confirmation",
+              open: function () {
+                  var markup = 'Please Select Report from the List';
+                  $(this).html(markup);
+              },
+              buttons: {
+                  Ok: function () {
+                      $(this).dialog("close");
+                  }
+              }
+          });  //end confirm dialog
+      }
+      else if($( "select option:selected" ).val() =="1") {
 
-    //$("#imsReport").attr("src", "http://pksp1.parks.co.la.ca.us/my/personal/fkim/Blog/MoveForward/_layouts/15/ReportServer/RSViewerPage.aspx?rv:RelativeReportUrl=/my/personal/fkim/Blog/MoveForward/Shared%20Documents/MS%20Reports/HB3R01CR2.rdl&Source=http%3A%2F%2Fpksp1%2Fmy%2Fpersonal%2Ffkim%2FBlog%2FMoveForward%2FSitePages%2FHome%2Easpx%3FRootFolder%3D%252Fmy%252Fpersonal%252Ffkim%252FBlog%252FMoveForward%252FShared%2520Documents%252FMS%2520Reports%26FolderCTID%3D0x012000B8C8DC2671179F4A9196732B2078EDB5%26View%3D%257BC2224CBA%252DB617%252D48B1%252D828C%252D08C90F19F094%257D");
+          var strUrl = "http://win-serv1/ReportServer/Pages/ReportViewer.aspx?%2fSQLReport%2fMS%2fHB307D+DraftB1&rs:Command=Render";
+          var params = [
+              'height=' + screen.height,
+              'width=' + screen.width,
+              'menubar= no',
+			  'location = no'
+              
+              //'fullscreen=yes' // only works in IE, but here for completeness
+          ].join(',');
+
+
+          var popup = window.open(strUrl, 'popup_window', params);
+          popup.moveTo(0, 0);
+          
+
+      }
+
+      else if ($("select option:selected").val() == "2") {
+
+          var strUrl = "http://win-serv1/ReportServer/Pages/ReportViewer.aspx?%2fSQLReport%2fMS%2fHB3R01CR2&rs:Command=Render";
+          var params = [
+              'height=' + screen.height,
+              'width=' + screen.width,
+              'menubar= no',
+			  'location = no'
+              
+              //'fullscreen=yes' // only works in IE, but here for completeness
+          ].join(',');
+
+
+          var popup = window.open(strUrl, 'popup_window', params);
+          popup.moveTo(0, 0);
+      }
+
+
   })
   .trigger("change");
 </script>

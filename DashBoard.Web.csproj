@@ -121,6 +121,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\AjaxMin.dll" />
+    <None Include="App_Data\AjaxMinTask.dll" />
     <Content Include="bower_components\bootstrap-social\.gitignore" />
     <Content Include="bower_components\bootstrap-social\bootstrap-social.css" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
@@ -908,9 +910,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\MSReports.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -932,7 +932,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>29128</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
@@ -946,10 +946,73 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <!--<Import Project="$(MSBuildExtensionsPath)\Microsoft\Microsoft Ajax Minifier\ajaxmin.tasks" /> -->
+  <UsingTask TaskName="AjaxMin" AssemblyFile="$(MSBuildProjectDirectory)\App_Data\AjaxMinTask.dll" />
+  <Target Name="AfterBuild" Condition="'$(ConfigurationName)'=='Release'">
+    <ItemGroup>
+      <!-- <JS Include="**\*.js" Exclude="**\*.min.js;obj\**\*.*" />
+	  <CSS Include="**\*.css" Exclude="**\*.min.css;obj\**\*.*" />
+	  -->
+      <CSS Include="bower_components\bootstrap\dist\css\bootstrap.css" Exclude="**\*.min.css;obj\**\*.*" />
+	  <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
+    </ItemGroup>
+    <AjaxMin JsSourceFiles="@(JS)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".jsMIN" CssSourceFiles="@(CSS)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".min.css" />
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+    CustomCollectFiles;
+    $(CopyAllFilesToSingleFolderForPackageDependsOn);
+  </CopyAllFilesToSingleFolderForPackageDependsOn>
+  </PropertyGroup>
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <MinJS Include="**\*.jsMIN" />
+      <FilesForPackagingFromProject Include="%(MinJS.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename).js</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <MinCSS Include="**\*.cssMIN" />
+      <FilesForPackagingFromProject Include="%(MinCSS.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename).css</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  
+   <Target Name="AfterBuild" Condition="'$(ConfigurationName)'=='Debug'">
+    <ItemGroup>
+      <!-- <JS Include="**\*.js" Exclude="**\*.min.js;obj\**\*.*" />
+	  <CSS Include="**\*.css" Exclude="**\*.min.css;obj\**\*.*" />
+	  -->
+      <CSS Include="bower_components\bootstrap\dist\css\bootstrap.css" Exclude="**\*.min.css;obj\**\*.*" />
+	  <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
+    </ItemGroup>
+    <AjaxMin JsSourceFiles="@(JS)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".jsMIN" CssSourceFiles="@(CSS)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".min.css" />
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+    CustomCollectFiles;
+    $(CopyAllFilesToSingleFolderForPackageDependsOn);
+  </CopyAllFilesToSingleFolderForPackageDependsOn>
+  </PropertyGroup>
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <MinJS Include="**\*.jsMIN" />
+      <FilesForPackagingFromProject Include="%(MinJS.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename).js</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+      <MinCSS Include="**\*.cssMIN" />
+      <FilesForPackagingFromProject Include="%(MinCSS.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename).css</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
 </Project>
