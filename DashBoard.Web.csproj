@@ -39,10 +39,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -111,11 +118,31 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\GraphDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
     <Compile Include="Domain\Data.cs" />
+    <Compile Include="Domain\YearlySales.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AWModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AWModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AWModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AWModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AWModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AWModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\f_uspGetTotalYearlySales_Result.cs">
+      <DependentUpon>AWModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Navbar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -561,6 +588,16 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Models\AWModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AWModel.edmx</DependentUpon>
+      <LastGenOutput>AWModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AWModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AWModel.edmx</DependentUpon>
+      <LastGenOutput>AWModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bower_components\bootstrap-social\.bower.json" />
@@ -866,6 +903,13 @@
     <Content Include="Content\less\mixins.less" />
     <Content Include="Content\less\sb-admin-2.less" />
     <Content Include="Content\less\variables.less" />
+    <EntityDeploy Include="Models\AWModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AWModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AWModel.edmx.diagram">
+      <DependentUpon>AWModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\Report Server Site.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\flot-data.js" />
@@ -909,8 +953,13 @@
     <Content Include="Views\Home\Blank.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\MSReports.cshtml" />
+    <Content Include="Views\GraphData\GetGraphData.cshtml" />
+    <Content Include="Views\GraphData\GetSalesGraphData.cshtml" />
+    <Content Include="Views\GraphData\testChart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -918,6 +967,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -964,7 +1014,7 @@
 	  <CSS Include="**\*.css" Exclude="**\*.min.css;obj\**\*.*" />
 	  -->
       <CSS Include="bower_components\bootstrap\dist\css\bootstrap.css" Exclude="**\*.min.css;obj\**\*.*" />
-	  <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
+      <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
     </ItemGroup>
     <AjaxMin JsSourceFiles="@(JS)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".jsMIN" CssSourceFiles="@(CSS)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".min.css" />
   </Target>
@@ -986,14 +1036,13 @@
       </FilesForPackagingFromProject>
     </ItemGroup>
   </Target>
-  
-   <Target Name="AfterBuild" Condition="'$(ConfigurationName)'=='Debug'">
+  <Target Name="AfterBuild" Condition="'$(ConfigurationName)'=='Debug'">
     <ItemGroup>
       <!-- <JS Include="**\*.js" Exclude="**\*.min.js;obj\**\*.*" />
 	  <CSS Include="**\*.css" Exclude="**\*.min.css;obj\**\*.*" />
 	  -->
       <CSS Include="bower_components\bootstrap\dist\css\bootstrap.css" Exclude="**\*.min.css;obj\**\*.*" />
-	  <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
+      <CSS Include="Content\sb-admin-2.css" Exclude="**\*.min.css;obj\**\*.*" />
     </ItemGroup>
     <AjaxMin JsSourceFiles="@(JS)" JsSourceExtensionPattern="\.js$" JsTargetExtension=".jsMIN" CssSourceFiles="@(CSS)" CssSourceExtensionPattern="\.css$" CssTargetExtension=".min.css" />
   </Target>
