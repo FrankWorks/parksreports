@@ -400,6 +400,7 @@ namespace DashBoard.Web.Controllers
         private string TestUser()
         {
             string username;
+            
 #if DEBUG
             int caseSwitch = Properties.Settings.Default.TestCase;
 
@@ -461,9 +462,11 @@ namespace DashBoard.Web.Controllers
 
 #else
 
-
+            string tempusername;
             UserInjectionMethod(out tempusername, out username);
+            
 #endif
+            
             return username;
         }
 
