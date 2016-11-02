@@ -39,7 +39,7 @@
 
         <div style="top:500px;padding-top:100px" id="page-wrapper">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="divMS" hidden="hidden">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -61,7 +61,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="divUMS" hidden="hidden">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -83,7 +83,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="divPD" hidden="hidden">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -105,7 +105,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="divAccounting" hidden="hidden">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -152,6 +152,64 @@
         $(document).ready(function () {
             $('#dataTables-example').DataTable({
                 responsive: true
+            });
+            //var pointer = @User.Identity.Name;
+            //if(pointer =="PARKS\fkim")
+
+            @*@if(@)
+            {
+                $("#divMS").hide(1000);
+            }
+            else
+            {
+            }*@
+            $.ajax({
+                // edit to add steve's suggestion.
+                //url: "/ControllerName/ActionName",
+                url: '@Url.Action("GetGroupsJsonUsingModel", "Account")',
+                success: function (data) {
+                    // your data could be a View or Json or what ever you returned in your action method 
+                    // parse your data here
+          //console.log("JSON Data: " + data.)
+                    //alert(data);
+                    var items = [];
+                    $.each(data, function (i, item) {
+                        //alert(data[i].Name);
+                        var groupName = data[i].Name;
+
+                       
+                        // M&S Group
+
+                        if (groupName.search('OSD') >= 0)
+                        {
+                            $("#divMS").show();
+                        }
+
+                        //UMS Group
+                        if (groupName.search('Util') >= 0) {
+                            $("#divUMS").show();
+                        }
+
+                        //Planning and Development
+                        if (groupName.search('PND') >= 0 ) {
+                            $("#divPD").show();
+                        }
+                        //Accounting Group
+                        if (groupName.search('Accou') >= 0) {
+                            $("#divAccounting").show();
+                        }
+                        // Admin Group Show All the Div
+
+                        if (groupName == 'Systems Development Section') {
+                            $("#divMS").show();
+                            $("#divUMS").show();
+                            $("#divPD").show();
+                            $("#divAccounting").show();
+                        }
+
+                    });
+
+                }
             });
         });
     </script>
