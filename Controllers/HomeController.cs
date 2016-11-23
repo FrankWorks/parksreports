@@ -76,5 +76,9 @@ namespace DashBoard.Web.Controllers
         {
             return View("MSReports");
         }
+        public ActionResult ReportCards()
+        {
+            return View("ReportCards");
+        }
     }
 }

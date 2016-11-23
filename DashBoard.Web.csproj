@@ -43,8 +43,12 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -54,7 +58,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
@@ -131,6 +134,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GraphDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JsonpResult.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
     <Compile Include="Domain\Data.cs" />
     <Compile Include="Domain\YearlySales.cs" />
@@ -156,6 +160,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AWModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\D_BIL.cs" />
+    <Compile Include="Models\D_BIL_BaseLine.cs" />
     <Compile Include="Models\f_uspGetTotalYearlySales_Result.cs">
       <DependentUpon>AWModel.tt</DependentUpon>
     </Compile>
@@ -175,6 +181,7 @@
       <DependentUpon>IDDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Navbar.cs" />
+    <Compile Include="Models\UMSModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -619,8 +626,11 @@
     <Content Include="bower_components\raphael\raphael.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\55C1E7.png" />
+    <Content Include="Content\Images\FA6F57.png" />
     <Content Include="Content\Images\Parks &amp; Rec Heder Graphic.png" />
     <Content Include="Content\Images\Parks.png" />
+    <Content Include="Content\Images\Tweer_Banner_1500x500.jpg" />
     <Content Include="Content\jquery-ui-1.12.0\AUTHORS.txt" />
     <Content Include="Content\jquery-ui-1.12.0\external\jquery\jquery.js" />
     <Content Include="Content\jquery-ui-1.12.0\images\ui-icons_444444_256x240.png" />
@@ -1433,6 +1443,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\GetGroupNameView.cshtml" />
     <Content Include="Views\Account\GetGroupsJsonClass.cshtml" />
+    <Content Include="Views\Home\ReportCards.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

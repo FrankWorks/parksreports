@@ -42,8 +42,13 @@
     <div id="wrapper">
         <!-- Navigation -->
         @Html.Action("Index", "Navbar")
-
+        @*<div class="row">
+            <div class="row" style=" display: block; display: inline-block; width: 900px ; height: 120px; float: left; margin-left: 282px;">
+                <img src="~/Content/Images/Parks & Rec Heder Graphic.png" class="img-rounded img-responsive" alt="Top Banner" style="z-index:0" />
+            </div>
+        </div>*@
         <div style="top:500px;padding-top:100px" id="page-wrapper">
+            
             <div class="row">
                 <div class="col-lg-3 col-md-6" id="divMS" hidden="hidden">
                     <div class="panel panel-primary">
@@ -81,12 +86,13 @@
                             </div>
                         </div>
                         <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">UMS Application</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
+                            <a href="@Url.Action("ReportCards", "Home")">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Report Cards</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6" id="divPD" hidden="hidden">
